@@ -3,8 +3,8 @@
 /*.egg-info
 /.installed.cfg
 /.mr.developer.cfg
+/.tox/
 /README.html
-/bin/
 /build/
 /buildout.cfg
 /coverage/

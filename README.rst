@@ -3,6 +3,9 @@
 Development
 ===========
 
+Installation
+------------
+
 Installing the ``opengever.apiclient``:
 
 .. code::
@@ -21,3 +24,12 @@ Installing a GEVER testserver:
    ln -s development.cfg buildout.cfg
    python bootstrap.py
    bin/buildout
+
+
+Run Tests
+---------
+
+.. code::
+
+   source venv/bin/activate
+   pytest
