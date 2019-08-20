@@ -10,7 +10,7 @@ Installing the ``opengever.apiclient``:
     pyenv shell 3.7.2
     python -m venv venv
     source venv/bin/activate
-    pip install -e .
+    pip install -e ".[tests]"
 
 
 Installing a GEVER testserver:

@@ -5,7 +5,11 @@ from setuptools import setup, find_packages
 version = '1.0.0.dev0'
 
 
-tests_require = []
+extras_require = {
+    'tests': [
+        'pytest',
+    ],
+}
 
 
 setup(name='opengever.apiclient',
@@ -35,5 +39,4 @@ setup(name='opengever.apiclient',
           'setuptools',
       ],
 
-      tests_require=tests_require,
-      extras_require={'tests': tests_require})
+      extras_require=extras_require)
