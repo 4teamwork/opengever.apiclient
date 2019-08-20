@@ -1,5 +1,22 @@
 
 
+Configuration
+=============
+
+Configure API keys
+------------------
+
+Die Funktionsweise und das Erstellen von GEVER API Keys ist in der
+[GEVER Dokumentation](https://docs.onegovgever.ch/dev-manual/api/authentication/oauth2_token_auth/)
+beschrieben.
+
+Die generierten Service-Keys der verschiedenen GEVER-Installationen werden in einen
+Ordner kopiert (Namenskonvention: ``keys``).
+Dieser Ordner wird über die Umgebungsvariabel ``OPENGEVER_APICLIENT_KEY_DIRS``
+konfiguriert. Mehrere Ordner können mit dem Trennzeichen ``:`` getrennt werden.
+
+
+
 Development
 ===========
 
