@@ -6,8 +6,9 @@ import requests
 import threading
 import time
 
-from .exceptions import ServiceKeyMissing
+from .exceptions import APIRequestException
 from .exceptions import AuthorizationFailed
+from .exceptions import ServiceKeyMissing
 from .keys import KeyRegistry
 
 
@@ -77,12 +78,17 @@ class GEVERSession:
         """Create a fresh requests session and return it.
         """
         session = requests.Session()
-        session.hooks["response"].append(
-            lambda r, *args, **kwargs: r.raise_for_status())
+        session.hooks["response"].append(self._raise_for_status_hook)
         session.headers.update({"User-Agent": self._user_agent})
         session.headers.update({"Accept": "application/json"})
         self._acquire_authorization_token(session)
         return session
+
+    def _raise_for_status_hook(self, response, *args, **kwargs):
+        try:
+            response.raise_for_status()
+        except HTTPError as exception:
+            raise APIRequestException(exception)
 
     @property
     def _user_agent(self):

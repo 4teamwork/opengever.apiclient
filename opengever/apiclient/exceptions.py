@@ -37,7 +37,7 @@ class APIRequestException(APIException):
     is instantiated.
     """
 
-    default_message = ""
+    default_message = "Request to GEVER failed."
 
     def __init__(self, original_exception=None, message=None):
         """
@@ -46,7 +46,7 @@ class APIRequestException(APIException):
         """
         self.original_exception = original_exception
         self.message = message or self.default_message
-        self._emit_log()
+        self._emit_log(original_exception)
 
     def _emit_log(self, original_exception):
         LOG.exception(original_exception)
@@ -68,7 +68,8 @@ class APIRequestException(APIException):
         cls(exception)
 
 
-class AuthorizationFailed(Exception):
+class AuthorizationFailed(APIRequestException):
     default_message = (
-        "An error occurred while acquiring the GEVER token. Maybe your API key is corrupt or invalid."
+        "An error occurred while acquiring the GEVER token. "
+        "Maybe your API key is corrupt or invalid."
     )
