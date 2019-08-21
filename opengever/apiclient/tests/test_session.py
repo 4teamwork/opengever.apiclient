@@ -1,16 +1,16 @@
-from . import PACKAGE_ROOT
+import requests_mock
+
 from . import TestCase
 from ..exceptions import AuthorizationFailed
 from ..exceptions import ServiceKeyMissing
+from ..keys import KeyRegistry
 from ..session import GEVERSession
-import requests_mock
 
 
 class TestGeverSessionManager(TestCase):
 
     def test_returns_prepared_session_when_called(self):
-        manager = GEVERSession("http://localhost:55001/plone/ordnungssystem/",
-                               "john.doe")
+        manager = GEVERSession(f'{self.plone_url}ordnungssystem/', 'john.doe')
         self.assertTrue(manager().get)
         self.assertTrue(manager().post)
         self.assertTrue(manager().headers.get("Authorization"))
@@ -22,32 +22,30 @@ class TestGeverSessionManager(TestCase):
         self.maxDiff = None
         self.assertEqual(
             f"No GEVER service key found for URL http://gever.example.com/fd/.\n"
-            f"Found keys ('http://localhost:55001/plone/',) "
-            f"in paths ('{PACKAGE_ROOT}/keys',)",
+            f"Found keys ('{self.plone_url}',) "
+            f"in paths {KeyRegistry.get_key_dirs()!r}",
             str(cm.exception))
 
     def test_error_when_key_invalid(self):
         with requests_mock.Mocker() as mocker:
-            mocker.post('http://localhost:55001/plone/@@oauth2-token', status_code=500)
+            mocker.post(f'{self.plone_url}@@oauth2-token', status_code=500)
             with self.assertRaises(AuthorizationFailed) as cm:
-                GEVERSession("http://localhost:55001/plone/ordnungssystem/",
-                             "john.doe")
+                GEVERSession(f'{self.plone_url}ordnungssystem/', 'john.doe')
 
         self.maxDiff = None
         self.assertEqual(
-            '500 Server Error: None '
-            'for url: http://localhost:55001/plone/@@oauth2-token',
+            f'500 Server Error: None for url: {self.plone_url}@@oauth2-token',
             str(cm.exception))
 
     def test_user_agent(self):
-        manager = GEVERSession("http://localhost:55001/plone/ordnungssystem/", "")
+        manager = GEVERSession(f'{self.plone_url}ordnungssystem/', '')
         self.assertRegex(
-            manager().headers.get("User-Agent"),
-            r"^opengever.apiclient/[0-9.]+.dev0")
+            manager().headers.get('User-Agent'),
+            r'^opengever.apiclient/[0-9.]+.dev0')
 
     def test_user_agent_is_configurable(self):
         with self.env(OPENGEVER_APICLIENT_USER_AGENT='Baumverwaltung/7.0'):
-            manager = GEVERSession("http://localhost:55001/plone/ordnungssystem/", "")
+            manager = GEVERSession(f'{self.plone_url}ordnungssystem/', '')
             self.assertRegex(
-                manager().headers.get("User-Agent"),
-                r"^opengever.apiclient/[0-9.]+.dev0 Baumverwaltung/7.0")
+                manager().headers.get('User-Agent'),
+                r'^opengever.apiclient/[0-9.]+.dev0 Baumverwaltung/7.0')
