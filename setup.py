@@ -39,6 +39,7 @@ setup(name='opengever.apiclient',
       zip_safe=False,
 
       install_requires=[
+          'pytz',
           'requests',
           'setuptools',
       ],

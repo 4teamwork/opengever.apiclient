@@ -1,4 +1,4 @@
-from . import TestSuite
+from .tests import TestSuite
 
 
 def pytest_configure(config):
