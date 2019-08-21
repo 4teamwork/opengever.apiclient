@@ -1,9 +1,25 @@
 from contextlib import contextmanager
+from pathlib import Path
 import os
 import unittest
 
+from ..keys import KeyRegistry
+from ..session import GEVERSession
+
+
+PACKAGE_ROOT = (Path(__file__) / '..' / '..' / '..' / '..').resolve()
+TESTS_DIR = (Path(__file__) / '..').resolve()
+
 
 class TestCase(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        os.environ.setdefault('OPENGEVER_APICLIENT_KEY_DIRS', str(PACKAGE_ROOT / 'keys'))
+
+    def setUp(self):
+        KeyRegistry.reset()
+        GEVERSession.clear()
 
     @contextmanager
     def env(self, **env):

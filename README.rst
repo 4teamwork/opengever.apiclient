@@ -16,6 +16,15 @@ Dieser Ordner wird über die Umgebungsvariabel ``OPENGEVER_APICLIENT_KEY_DIRS``
 konfiguriert. Mehrere Ordner können mit dem Trennzeichen ``:`` getrennt werden.
 
 
+Umgebungsvariabeln
+------------------
+
+``OPENGEVER_APICLIENT_KEY_DIRS``
+  Pfadliste zu Keys Ordnern getrennt mit ``:``.
+
+``OPENGEVER_APICLIENT_USER_AGENT``
+  Zusätzlicher User-Agent (z.B. ``MeineApp/3.5``).
+
 
 Development
 ===========
