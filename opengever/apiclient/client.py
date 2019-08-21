@@ -1,3 +1,4 @@
+from .models import ModelRegistry
 from .session import GEVERSession
 
 
@@ -22,4 +23,4 @@ class GEVERClient:
         """Retrieve the full object with the configured URL and return the object
         representation.
         """
-        return self.session().get(self.url).json()
+        return ModelRegistry.wrap(self.session().get(self.url).json())

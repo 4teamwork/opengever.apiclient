@@ -6,12 +6,8 @@ from ..exceptions import APIRequestException
 class TestClient(TestCase):
 
     def test_retrieve_document(self):
-        client = GEVERClient(
-            f'{self.plone_url}ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/proposal-2/document-19',
-            'kathi.barfuss')
-
-        document = client.retrieve()
-        self.assertTrue(document)
+        client = GEVERClient(self.document_url, 'kathi.barfuss')
+        self.assertTrue(client.retrieve())
 
     def test_failure_when_retrieving_unknown_url(self):
         client = GEVERClient(f'{self.plone_url}ordnungssystem/bad-url', 'kathi.barfuss')
