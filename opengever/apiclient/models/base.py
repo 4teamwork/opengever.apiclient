@@ -18,6 +18,9 @@ class APIModel:
     def __getattr__(self, *args, **kwargs):
         return self.item.get(*args, **kwargs)
 
+    def __eq__(self, other):
+        return self.url == other.url
+
     @property
     def url(self):
         return self.item['@id']

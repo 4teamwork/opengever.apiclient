@@ -5,6 +5,11 @@ from ..base import APIModel
 
 class TestAPIModel(TestCase):
 
+    def test_equality(self):
+        document1 = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
+        document2 = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
+        self.assertEqual(document2, document1)
+
     def test_parent(self):
         document = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
         self.assertEqual(self.document_url, document.url)
