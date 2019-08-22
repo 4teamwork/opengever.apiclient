@@ -27,6 +27,8 @@ class TestCase(unittest.TestCase):
     dossier_url = f'{repository_folder_url}/dossier-1'
     document_url = f'{dossier_url}/document-14'
 
+    regular_user = 'kathi.barfuss'
+
     @classmethod
     def setUpClass(cls):
         cls.plone_url = PLONE_URL

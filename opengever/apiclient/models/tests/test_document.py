@@ -6,13 +6,13 @@ from ...tests import TestCase
 class TestDocumentModel(TestCase):
 
     def test_properties(self):
-        document = GEVERClient(self.document_url, 'kathi.barfuss').fetch()
+        document = GEVERClient(self.document_url, self.regular_user).fetch()
         self.assertIsInstance(document, Document)
         self.assertEqual('Verträgsentwurf', document.title)
         self.assertEqual('2016-08-31T14:07:33+00:00', document.created)
 
     def test_raw(self):
-        document = GEVERClient(self.document_url, 'kathi.barfuss').fetch()
+        document = GEVERClient(self.document_url, self.regular_user).fetch()
         self.maxDiff = None
         self.assertDictContainsSubset(
             {
@@ -52,5 +52,5 @@ class TestDocumentModel(TestCase):
             document.raw)
 
     def test_url(self):
-        document = GEVERClient(self.document_url, 'kathi.barfuss').fetch()
+        document = GEVERClient(self.document_url, self.regular_user ).fetch()
         self.assertEqual(self.document_url, document.url)
