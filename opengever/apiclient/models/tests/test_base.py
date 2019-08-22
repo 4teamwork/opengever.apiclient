@@ -31,3 +31,7 @@ class TestAPIModel(TestCase):
         dossier = document.parent
         self.assertIsInstance(dossier, APIModel)
         self.assertEqual(self.dossier_url, dossier.url)
+
+    def test_items(self):
+        document = GEVERClient(self.document_url, 'kathi.barfuss').fetch()
+        self.assertIn(document, document.parent.fetch().items)

@@ -38,6 +38,12 @@ class APIModel:
         """
         return self.client.wrap(self.raw['parent'])
 
+    @property
+    def items(self):
+        """The children of the object.
+        """
+        return list(map(self.client.wrap, self.raw['items']))
+
     def fetch(self):
         """Fetch this item from GEVER and update self.
         """
