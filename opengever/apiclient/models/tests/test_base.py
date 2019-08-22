@@ -10,6 +10,11 @@ class TestAPIModel(TestCase):
         document2 = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
         self.assertEqual(document2, document1)
 
+    def test_attribute_error_on_missing_properties(self):
+        document = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
+        with self.assertRaises(AttributeError):
+            document.not_existing_property
+
     def test_parent(self):
         document = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
         self.assertEqual(self.document_url, document.url)

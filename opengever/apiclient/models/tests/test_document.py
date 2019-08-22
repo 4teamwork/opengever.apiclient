@@ -11,7 +11,7 @@ class TestDocumentModel(TestCase):
         self.assertEqual('Verträgsentwurf', document.title)
         self.assertEqual('2016-08-31T14:07:33+00:00', document.created)
 
-    def test_item(self):
+    def test_raw(self):
         document = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
         self.maxDiff = None
         self.assertDictContainsSubset(
@@ -49,7 +49,7 @@ class TestDocumentModel(TestCase):
                 'thumbnail': None,
                 'title': 'Verträgsentwurf',
             },
-            document.item)
+            document.raw)
 
     def test_url(self):
         document = GEVERClient(self.document_url, 'kathi.barfuss').retrieve()
