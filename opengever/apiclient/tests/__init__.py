@@ -21,10 +21,10 @@ TESTSERVER_PROXY = xmlrpc.client.ServerProxy(XMLRPC_URL)
 
 class TestCase(unittest.TestCase):
 
-    repository_url = f'{PLONE_URL}ordnungssystem/'
-    repository_folder_url = f'{repository_url}fuehrung/vertraege-und-vereinbarungen/'
-    dossier_url = f'{repository_folder_url}dossier-1/'
-    document_url = f'{dossier_url}document-14'
+    repository_url = f'{PLONE_URL}ordnungssystem'
+    repository_folder_url = f'{repository_url}/fuehrung/vertraege-und-vereinbarungen'
+    dossier_url = f'{repository_folder_url}/dossier-1'
+    document_url = f'{dossier_url}/document-14'
 
     @classmethod
     def setUpClass(cls):

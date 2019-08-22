@@ -22,6 +22,12 @@ class APIModel:
     def url(self):
         return self.item['@id']
 
+    @property
+    def parent(self):
+        """Parent object.
+        """
+        return ModelRegistry.wrap(self.item['parent'])
+
 
 @ModelRegistry.register
 class BaseModel(APIModel):
