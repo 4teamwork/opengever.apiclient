@@ -19,8 +19,8 @@ class GEVERClient:
         self.username = username
         self.session = GEVERSession(url, username)
 
-    def retrieve(self):
-        """Retrieve the full object with the configured URL and return the object
+    def fetch(self):
+        """Fetch the full object with the configured URL and return the object
         representation.
         """
         return ModelRegistry.wrap(self.session().get(self.url).json())
