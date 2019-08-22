@@ -15,6 +15,15 @@ class TestAPIModel(TestCase):
         with self.assertRaises(AttributeError):
             document.not_existing_property
 
+    def test_fetch_partial_item_to_upgrade_to_full_item(self):
+        dossier = GEVERClient(self.document_url, 'kathi.barfuss').fetch().parent
+        with self.assertRaises(AttributeError):
+            dossier.created
+
+        self.assertEqual(dossier, dossier.fetch())
+        self.assertTrue(dossier.created)
+        self.assertEqual(self.dossier_url, dossier.url)
+
     def test_parent(self):
         document = GEVERClient(self.document_url, 'kathi.barfuss').fetch()
         self.assertEqual(self.document_url, document.url)

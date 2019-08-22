@@ -19,8 +19,24 @@ class GEVERClient:
         self.username = username
         self.session = GEVERSession(url, username)
 
-    def fetch(self):
+    def adopt(self, url):
+        """Create and return a new GEVERClient instance for the passed url.
+        :param url: The base URL to a resource in GEVER without the view.
+        :type url: string
+        """
+        return type(self)(url, self.username)
+
+    def wrap(self, item):
+        """Wrap an item into a API model object.
+        """
+        return ModelRegistry.wrap(item, self)
+
+    def fetch(self, raw=False):
         """Fetch the full object with the configured URL and return the object
         representation.
         """
-        return ModelRegistry.wrap(self.session().get(self.url).json())
+        item = self.session().get(self.url).json()
+        if raw:
+            return item
+        else:
+            return self.wrap(item)

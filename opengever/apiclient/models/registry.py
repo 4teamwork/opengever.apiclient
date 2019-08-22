@@ -21,7 +21,7 @@ class ModelRegistry:
         """
         return self.models.get(portal_type, *args, **kwargs)
 
-    def wrap(self, item):
+    def wrap(self, item, client):
         """Wrap an item (dict from GEVER) into an object based on our models.
         """
         if not isinstance(item, dict):
@@ -30,4 +30,4 @@ class ModelRegistry:
             raise ValueError(f'Missing @type in item.')
 
         model = self.get(item.get('@type')) or self.get('_unknown_')
-        return model(item)
+        return model(item, client)

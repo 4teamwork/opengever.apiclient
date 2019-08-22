@@ -21,7 +21,8 @@ TESTSERVER_PROXY = xmlrpc.client.ServerProxy(XMLRPC_URL)
 
 class TestCase(unittest.TestCase):
 
-    repository_url = f'{PLONE_URL}ordnungssystem'
+    root_url = PLONE_URL
+    repository_url = f'{root_url}ordnungssystem'
     repository_folder_url = f'{repository_url}/fuehrung/vertraege-und-vereinbarungen'
     dossier_url = f'{repository_folder_url}/dossier-1'
     document_url = f'{dossier_url}/document-14'
