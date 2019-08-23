@@ -17,7 +17,15 @@ class TestClient(TestCase):
 
     def test_fetch_document(self):
         client = GEVERClient(self.document_url, self.regular_user)
-        self.assertTrue(client.fetch())
+        document = client.fetch()
+        self.assertIsInstance(document, APIModel)
+        self.assertEqual('Verträgsentwurf', document.title)
+
+    def test_fetch_raw_document(self):
+        client = GEVERClient(self.document_url, self.regular_user)
+        document = client.fetch(raw=True)
+        self.assertIsInstance(document, dict)
+        self.assertEqual('Verträgsentwurf', document['title'])
 
     def test_failure_when_retrieving_unknown_url(self):
         client = GEVERClient(f'{self.plone_url}ordnungssystem/bad-url', self.regular_user)

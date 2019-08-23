@@ -1,5 +1,6 @@
 from .models import ModelRegistry
 from .session import GEVERSession
+from .utils import autowrap
 
 
 class GEVERClient:
@@ -31,24 +32,16 @@ class GEVERClient:
         """
         return ModelRegistry.wrap(item, self)
 
-    def fetch(self, raw=False):
+    @autowrap
+    def fetch(self):
         """Fetch the full object with the configured URL and return the object
         representation.
         """
-        item = self.session().get(self.url).json()
-        if raw:
-            return item
-        else:
-            return self.wrap(item)
+        return self.session().get(self.url).json()
 
+    @autowrap
     def create_dossier(self, title, **data):
-        raw = data.pop('raw', False)
         data.setdefault('responsible', self.username)
         data.update({'@type': 'opengever.dossier.businesscasedossier',
                      'title': title})
-
-        item = self.session().post(self.url, json=data).json()
-        if raw:
-            return item
-        else:
-            return self.wrap(item)
+        return self.session().post(self.url, json=data).json()
