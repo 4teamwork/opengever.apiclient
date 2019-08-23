@@ -40,3 +40,15 @@ class GEVERClient:
             return item
         else:
             return self.wrap(item)
+
+    def create_dossier(self, title, **data):
+        raw = data.pop('raw', False)
+        data.setdefault('responsible', self.username)
+        data.update({'@type': 'opengever.dossier.businesscasedossier',
+                     'title': title})
+
+        item = self.session().post(self.url, json=data).json()
+        if raw:
+            return item
+        else:
+            return self.wrap(item)

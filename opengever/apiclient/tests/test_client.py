@@ -1,6 +1,7 @@
 from . import TestCase
 from .. import GEVERClient
 from ..exceptions import APIRequestException
+from ..models.base import APIModel
 
 
 class TestClient(TestCase):
@@ -26,3 +27,18 @@ class TestClient(TestCase):
         self.assertEqual(
             f'404 Client Error: Not Found for url: {self.plone_url}ordnungssystem/bad-url',
             str(cm.exception))
+
+    def test_create_dossier(self):
+        client = GEVERClient(self.repository_folder_url, self.regular_user)
+        dossier = client.create_dossier('Wichtige Unterlagen',
+                                        description='Richtig Wichtig')
+        self.assertIsInstance(dossier, APIModel)
+        self.assertEqual('Wichtige Unterlagen', dossier.title)
+        self.assertEqual('Richtig Wichtig', dossier.description)
+        self.assertEqual(self.regular_user, dossier.responsible)
+
+    def test_create_dossier_raw(self):
+        client = GEVERClient(self.repository_folder_url, self.regular_user)
+        dossier = client.create_dossier('Kleines Dossier', raw=True)
+        self.assertIsInstance(dossier, dict)
+        self.assertEqual('Kleines Dossier', dossier['title'])
