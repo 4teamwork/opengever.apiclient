@@ -7,7 +7,6 @@ version = '1.0.0.dev0'
 
 extras_require = {
     'tests': [
-        'PyJWT [crypto]',
         'freezegun',
         'pytest',
         'requests-mock',
@@ -39,6 +38,7 @@ setup(name='opengever.apiclient',
       zip_safe=False,
 
       install_requires=[
+          'PyJWT [crypto]',
           'pytz',
           'requests',
           'setuptools',
