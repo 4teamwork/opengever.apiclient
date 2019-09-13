@@ -10,6 +10,7 @@ class TestDocumentModel(TestCase):
         self.assertIsInstance(document, Document)
         self.assertEqual('Verträgsentwurf', document.title)
         self.assertEqual('2016-08-31T14:07:33+00:00', document.created)
+        self.assertEqual('Client1 1.1 / 1 / 14', document.reference_number)
 
     def test_raw(self):
         document = GEVERClient(self.document_url, self.regular_user).fetch()

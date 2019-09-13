@@ -43,6 +43,7 @@ class TestClient(TestCase):
         self.assertIsInstance(dossier, APIModel)
         self.assertEqual('Wichtige Unterlagen', dossier.title)
         self.assertEqual('Richtig Wichtig', dossier.description)
+        self.assertEqual('Client1 1.1 / 1 / 14', dossier.reference_number)
         self.assertEqual(self.regular_user, dossier.responsible)
 
     def test_create_dossier_raw(self):

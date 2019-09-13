@@ -55,6 +55,8 @@ Installing a GEVER testserver:
 Run Tests
 ---------
 
+Make sure that the GEVER testserver is running before running the tests (`bin/testserver`).
+
 .. code::
 
    source venv/bin/activate
