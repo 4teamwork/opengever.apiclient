@@ -1,7 +1,7 @@
-from . import TestCase
 from .. import GEVERClient
 from ..exceptions import APIRequestException
 from ..models.base import APIModel
+from . import TestCase
 
 
 class TestClient(TestCase):
@@ -50,3 +50,60 @@ class TestClient(TestCase):
         dossier = client.create_dossier('Kleines Dossier', raw=True)
         self.assertIsInstance(dossier, dict)
         self.assertEqual('Kleines Dossier', dossier['title'])
+
+    def test_get_navigation(self):
+        client = GEVERClient(self.root_url, self.regular_user)
+        with self.assertRaisesRegex(NotImplementedError, 'use raw=True'):
+            client.get_navigation()
+
+        navigation = client.get_navigation(raw=True)
+        self.assertEqual({
+            '@id': f'{self.plone_url}ordnungssystem/@navigation',
+            'tree': [
+                {
+                    '@type': 'opengever.repository.repositoryfolder',
+                    'active': True,
+                    'current': False,
+                    'current_tree': False,
+                    'description': 'Alles zum Thema Führung.',
+                    'nodes': [
+                        {
+                            '@type': 'opengever.repository.repositoryfolder',
+                            'active': True,
+                            'current': False,
+                            'current_tree': False,
+                            'description': '',
+                            'nodes': [],
+                            'text': '1.1. Verträge und Vereinbarungen',
+                            'uid': 'createrepositorytree000000000003',
+                            'url': f'{self.plone_url}ordnungssystem/fuehrung/vertraege-und-vereinbarungen',
+                        }
+                    ],
+                    'text': '1. Führung',
+                    'uid': 'createrepositorytree000000000002',
+                    'url': f'{self.plone_url}ordnungssystem/fuehrung',
+                },
+                {
+                    '@type': 'opengever.repository.repositoryfolder',
+                    'active': True,
+                    'current': False,
+                    'current_tree': False,
+                    'description': '',
+                    'nodes': [],
+                    'text': '2. Rechnungsprüfungskommission',
+                    'uid': 'createrepositorytree000000000004',
+                    'url': f'{self.plone_url}ordnungssystem/rechnungspruefungskommission',
+                },
+                {
+                    '@type': 'opengever.repository.repositoryfolder',
+                    'active': False,
+                    'current': False,
+                    'current_tree': False,
+                    'description': '',
+                    'nodes': [],
+                    'text': '3. Spinnännetzregistrar',
+                    'uid': 'createrepositorytree000000000005',
+                    'url': f'{self.plone_url}ordnungssystem/spinnaennetzregistrar',
+                },
+            ],
+        }, navigation)

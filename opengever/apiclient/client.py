@@ -45,3 +45,10 @@ class GEVERClient:
         data.update({'@type': 'opengever.dossier.businesscasedossier',
                      'title': title})
         return self.session().post(self.url, json=data).json()
+
+    def get_navigation(self, raw=False):
+        if not raw:
+            raise NotImplementedError(
+                'get_navigation currently does not support autowrapping its items, please use raw=True.'
+            )
+        return self.session().get(f'{self.url}/@navigation').json()
