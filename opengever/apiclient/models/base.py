@@ -1,3 +1,5 @@
+from urllib.parse import urljoin
+
 from .registry import ModelRegistry
 
 
@@ -49,6 +51,15 @@ class APIModel:
         """
         self.update_item(self.client.fetch(raw=True))
         return self
+
+    def has_addable_type(self, content_type):
+        # Why the trailing slash?
+        # https://stackoverflow.com/a/10893427/3906189
+        types = self.client.session().get(urljoin(f'{self.url}/', '@types')).json()
+        for gever_content_type in types:
+            if gever_content_type['@id'].endswith(content_type):
+                return gever_content_type['addable']
+        return False
 
 
 @ModelRegistry.register

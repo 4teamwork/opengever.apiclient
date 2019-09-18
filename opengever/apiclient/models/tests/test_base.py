@@ -35,3 +35,8 @@ class TestAPIModel(TestCase):
     def test_items(self):
         document = GEVERClient(self.document_url, self.regular_user).fetch()
         self.assertIn(document, document.parent.fetch().items)
+
+    def test_has_addable_type(self):
+        repository_folder = GEVERClient(self.repository_folder_url, self.regular_user).fetch()
+        self.assertTrue(repository_folder.has_addable_type('opengever.dossier.businesscasedossier'))
+        self.assertFalse(repository_folder.has_addable_type('opengever.repository.repositoryfolder'))
