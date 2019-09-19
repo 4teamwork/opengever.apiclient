@@ -52,3 +52,6 @@ class GEVERClient:
                 'get_navigation currently does not support autowrapping its items, please use raw=True.'
             )
         return self.session().get(f'{self.url}/@navigation').json()
+
+    def update_object(self, **data):
+        return self.session().patch(self.url, json=data).ok

@@ -107,3 +107,8 @@ class TestClient(TestCase):
                 },
             ],
         }, navigation)
+
+    def test_update_dossier(self):
+        dossier = GEVERClient(self.repository_folder_url, self.regular_user).create_dossier('Ein Tossier')
+        update = GEVERClient(dossier.url, self.regular_user).update_object(title='Ein Dossier')
+        self.assertTrue(update)
