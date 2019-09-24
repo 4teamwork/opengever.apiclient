@@ -126,3 +126,31 @@ class TestClient(TestCase):
             listing["items"][0].url,
             "http://localhost:55001/plone/ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/task-1/document-35"
         )
+
+    def test_documents_listing(self):
+        """
+        Example listing as used by the Vertragsmanagement.
+        """
+        listing = GEVERClient(url=self.dossier_url, username=self.regular_user).listing(
+            **{"columns:list": [
+                "title",
+                "created",
+                "modified",
+                "filename",
+                "checked_out",
+                "bumblebee_checksum",
+                "pdf_url",
+                "file_extension",
+                "document_type",
+            ]}
+        )
+        first_document = listing["items"][0]
+        self.assertEqual(first_document.title, "Feedback zum Vertragsentwurf")
+        self.assertEqual(first_document.created, "2016-08-31T16:05:33+00:00")
+        self.assertEqual(first_document.modified, "2016-08-31T16:05:33+00:00")
+        self.assertEqual(first_document.filename, "Feedback zum Vertragsentwurf.docx")
+        self.assertEqual(first_document.checked_out, "")
+        self.assertEqual(first_document.bumblebee_checksum, "5ed3f5959a83418cb26e0ae4f54319695f0c5faac0833616bdba8d4d856f659c")
+        # self.assertEqual(first_document.pdf_url, "/YnVtYmxlYmVl/api/v3/resource/5ed3f5959a83418cb26e0ae4f54319695f0c5faac0833616bdba8d4d856f659c/pdf?access_token=L6EMQotuplWyKhvLM4eZKOHmtcQnFwg8DCJYP_af6wU%3D&bid=ng7geXBlTaWMMDh2YBE1eg")
+        self.assertEqual(first_document.file_extension, ".docx")
+        self.assertEqual(first_document.document_type, None)

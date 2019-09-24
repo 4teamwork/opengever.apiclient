@@ -40,3 +40,11 @@ class TestAPIModel(TestCase):
         repository_folder = GEVERClient(self.repository_folder_url, self.regular_user).fetch()
         self.assertTrue(repository_folder.has_addable_type('opengever.dossier.businesscasedossier'))
         self.assertFalse(repository_folder.has_addable_type('opengever.repository.repositoryfolder'))
+
+    def test_id_path(self):
+        dossier = GEVERClient(self.document_url, self.regular_user).fetch()
+        self.assertEqual(dossier.id_path, "/plone/ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/document-14")
+
+    def test_sequence_number(self):
+        dossier = GEVERClient(self.document_url, self.regular_user).fetch()
+        self.assertEqual(dossier.sequence_number, 14)

@@ -1,4 +1,5 @@
 from urllib.parse import urljoin
+from urllib.parse import urlparse
 
 from .registry import ModelRegistry
 
@@ -45,6 +46,14 @@ class APIModel:
         """The children of the object.
         """
         return list(map(self.client.wrap, self.raw['items']))
+
+    @property
+    def id_path(self):
+        return urlparse(self.raw['@id']).path
+
+    @property
+    def sequence_number(self):
+        return int(self.id_path.split("-")[-1])
 
     def fetch(self):
         """Fetch this item from GEVER and update self.
