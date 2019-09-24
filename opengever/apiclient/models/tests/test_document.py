@@ -52,5 +52,5 @@ class TestDocumentModel(TestCase):
             document.raw)
 
     def test_url(self):
-        document = GEVERClient(self.document_url, self.regular_user ).fetch()
+        document = GEVERClient(self.document_url, self.regular_user).fetch()
         self.assertEqual(self.document_url, document.url)
