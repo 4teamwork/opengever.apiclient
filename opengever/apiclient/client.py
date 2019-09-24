@@ -53,5 +53,22 @@ class GEVERClient:
             )
         return self.session().get(f'{self.url}/@navigation').json()
 
+    def listing(self, name, columns=[], raw=False, **kwargs):
+        """
+        Listing of specific types for given URL (https://docs.onegovgever.ch/dev-manual/api/listings/)
+        Results are casted into model objects.
+        """
+        kwargs['name'] = name
+
+        kwargs['columns:list'] = ['@type']
+        kwargs['columns:list'].extend(columns)
+
+        response = self.session().get(f'{self.url}/@listing', params=kwargs).json()
+        if raw:
+            return response
+
+        response['items'] = [self.wrap(item=item) for item in response['items']]
+        return response
+
     def update_object(self, **data):
         return self.session().patch(self.url, json=data).ok
