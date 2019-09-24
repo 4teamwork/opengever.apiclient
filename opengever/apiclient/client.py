@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 from .models import ModelRegistry
 from .session import GEVERSession
 from .utils import autowrap
@@ -70,6 +72,29 @@ class GEVERClient:
         response = self.session().get(f"{self.url}/@listing", params=params).json()
         response["items"] = [self.wrap(item=item) for item in response["items"]]
         return response
+
+    def paginated_listing(self, **params):
+        """
+        Brute implementation: refactor to contextmanager or such --> own module.
+        """
+        params.update({
+            "search": quote(params.get("search", "")),
+            "sort_on": params.get("sortBy", "title"),
+            "sort_order": self._get_sort_order(descending=params.get("descending", "")),
+            "b_start": self._get_batch_start(page=params.get("page"), per_page=params.get("rowsPerPage")),
+            "b_size": params.get("rowsPerPage", 10),
+        })
+        response = self.listing(**params)
+        return response
+
+    def _get_sort_order(self, descending):
+        return "descending" if descending == "true" else "ascending"
+
+    def _get_batch_start(self, page, per_page):
+        try:
+            return (int(page) - 1) * int(per_page)
+        except (ValueError, TypeError):
+            return 0
 
     def update_object(self, **data):
         return self.session().patch(self.url, json=data).ok

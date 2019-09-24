@@ -154,3 +154,22 @@ class TestClient(TestCase):
         # self.assertEqual(first_document.pdf_url, "/YnVtYmxlYmVl/api/v3/resource/5ed3f5959a83418cb26e0ae4f54319695f0c5faac0833616bdba8d4d856f659c/pdf?access_token=L6EMQotuplWyKhvLM4eZKOHmtcQnFwg8DCJYP_af6wU%3D&bid=ng7geXBlTaWMMDh2YBE1eg")
         self.assertEqual(first_document.file_extension, ".docx")
         self.assertEqual(first_document.document_type, None)
+
+    def test_paginated_listing(self):
+        listing = GEVERClient(url=self.dossier_url, username=self.regular_user).paginated_listing(
+            **{"columns:list": [
+                "title",
+                "created",
+                "checked_out",
+            ]}
+        )
+        self.assertEqual(
+            {
+                '@id': 'http://localhost:55001/plone/ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/@listing?columns%3Alist=title&columns%3Alist=created&columns%3Alist=checked_out&columns%3Alist=%40type&search=&sort_on=title&sort_order=ascending&b_start=0&b_size=10&name=documents',
+                'first': 'http://localhost:55001/plone/ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/@listing?b_start=0&columns%3Alist=title&columns%3Alist=created&columns%3Alist=checked_out&columns%3Alist=%40type&sort_on=title&sort_order=ascending&b_size=10&name=documents',
+                'last': 'http://localhost:55001/plone/ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/@listing?b_start=10&columns%3Alist=title&columns%3Alist=created&columns%3Alist=checked_out&columns%3Alist=%40type&sort_on=title&sort_order=ascending&b_size=10&name=documents',
+                'next': 'http://localhost:55001/plone/ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/@listing?b_start=10&columns%3Alist=title&columns%3Alist=created&columns%3Alist=checked_out&columns%3Alist=%40type&sort_on=title&sort_order=ascending&b_size=10&name=documents'}
+            ,
+            listing["batching"]
+        )
+        self.assertEqual(listing["items"][0].created, "2016-08-31T15:03:33+00:00")
