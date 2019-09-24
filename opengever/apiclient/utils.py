@@ -10,7 +10,7 @@ def singleton(cls):
 
 
 def autowrap(func):
-    """Decorator for GEVERClient methods which will autoomatically
+    """Decorator for GEVERClient methods which will automatically
     wrap returned items into API model objects.
     """
     @wraps(func)
