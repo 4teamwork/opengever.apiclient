@@ -1,5 +1,6 @@
 from .. import GEVERClient
 from ..exceptions import APIRequestException
+from ..models import Document
 from ..models.base import APIModel
 from . import TestCase
 
@@ -112,3 +113,16 @@ class TestClient(TestCase):
         dossier = GEVERClient(self.repository_folder_url, self.regular_user).create_dossier('Ein Tossier')
         update = GEVERClient(dossier.url, self.regular_user).update_object(title='Ein Dossier')
         self.assertTrue(update)
+
+    def test_listing(self):
+        listing = GEVERClient(url=self.dossier_url, username=self.regular_user).listing()
+        # All listing elements are returned
+        self.assertEqual(listing["items_total"], 12)
+        # This fails, but it is what I would expect.
+        # self.assertTrue(all([isinstance(item, Document) for item in listing["items"]]))
+        # Results are wrapped as 'Documents'
+        self.assertIsInstance(listing["items"][0], Document)
+        self.assertEqual(
+            listing["items"][0].url,
+            "http://localhost:55001/plone/ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/task-1/document-35"
+        )

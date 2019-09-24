@@ -53,5 +53,18 @@ class GEVERClient:
             )
         return self.session().get(f'{self.url}/@navigation').json()
 
+    def listing(self, **params):
+        """
+        Listing of specific types for given URL (https://docs.onegovgever.ch/dev-manual/api/listings/)
+        Results are casted into model objects.
+        """
+        # GEVER-team: why does this include elements of type 'ftw.mail.mail'?
+        if "name" not in params:
+            params["name"] = "documents"
+        params["columns:list"] = "@type"
+        response = self.session().get(f"{self.url}/@listing", params=params).json()
+        response["items"] = [self.wrap(item=item) for item in response["items"]]
+        return response
+
     def update_object(self, **data):
         return self.session().patch(self.url, json=data).ok
