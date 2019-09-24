@@ -1,10 +1,8 @@
-
-
-Configuration
+Konfiguration
 =============
 
-Configure API keys
-------------------
+API Keys konfigurieren
+----------------------
 
 Die Funktionsweise und das Erstellen von GEVER API Keys ist in der
 [GEVER Dokumentation](https://docs.onegovgever.ch/dev-manual/api/authentication/oauth2_token_auth/)
@@ -26,13 +24,13 @@ Umgebungsvariabeln
   Zusätzlicher User-Agent (z.B. ``MeineApp/3.5``).
 
 
-Development
+Entwicklung
 ===========
 
 Installation
 ------------
 
-Installing the ``opengever.apiclient``:
+Installation des ``opengever.apiclient``:
 
 .. code::
 
@@ -42,7 +40,7 @@ Installing the ``opengever.apiclient``:
     pip install -e ".[tests]"
 
 
-Installing a GEVER testserver:
+Installation des GEVER Testservers:
 
 .. code::
 
@@ -52,8 +50,8 @@ Installing a GEVER testserver:
    bin/buildout
 
 
-Run Tests
----------
+Tests ausführen
+---------------
 
 .. code::
 
