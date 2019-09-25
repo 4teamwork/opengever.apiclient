@@ -1,10 +1,44 @@
+Ziele
+=====
+
+* Versionierung von GEVER behandeln
+
+    * Dies ist der wichtigste Grund für die Entstehung dieses Pakets. Der `opengever.apiclient` kann in einer bestimmten Version installiert werden und retourniert unabhängig von der GEVER Version konstistente Daten.
+    * Die Art der Implementierung der Versionierung ist noch nicht entschieden.
+
+* Dokumentation über Verwendung
+
+    * Sämtliche Zugriffe auf die GEVER API - auch sehr projekt-spezifische - müssen über dieses Paket abgehandelt werden. Dies, damit das GEVER Team die Art der Verwendung abschätzen kann.
+
+    * DRY: Features wie Paginierung und Fehlerbehandlung werden nur ein Mal implementiert.
+
+* Zusammenarbeit zwischen GEVER und django Team verbessern
+
+    * Durch die Zusammenarbeit soll für das GEVER Team die Verwendung der API transparent werden. Das django Team erhält Feedback wenn die API nicht optimal angesprochen wird.
 
 
-Configuration
+Aufbau
+======
+
+Organisation
+------------
+
+* Das django Team hat die Verantwortung für die Entwicklung dieses Pakets.
+* Je eine Person aus dem GEVER und django Team muss die PRs reviewen.
+
+
+Technisches
+-----------
+
+* Sämtliche requests müssen von diesem Paket behandelt werden.
+* Die Objekte im Ordner `apiclient/models` repräsentieren GEVER-Inhaltstypen (https://docs.onegovgever.ch/dev-manual/api/content_types/)
+
+
+Konfiguration
 =============
 
-Configure API keys
-------------------
+API Keys konfigurieren
+----------------------
 
 Die Funktionsweise und das Erstellen von GEVER API Keys ist in der
 [GEVER Dokumentation](https://docs.onegovgever.ch/dev-manual/api/authentication/oauth2_token_auth/)
@@ -26,13 +60,13 @@ Umgebungsvariabeln
   Zusätzlicher User-Agent (z.B. ``MeineApp/3.5``).
 
 
-Development
+Entwicklung
 ===========
 
 Installation
 ------------
 
-Installing the ``opengever.apiclient``:
+Installation des ``opengever.apiclient``:
 
 .. code::
 
@@ -42,7 +76,7 @@ Installing the ``opengever.apiclient``:
     pip install -e ".[tests]"
 
 
-Installing a GEVER testserver:
+Installation des GEVER Testservers:
 
 .. code::
 
@@ -52,8 +86,8 @@ Installing a GEVER testserver:
    bin/buildout
 
 
-Run Tests
----------
+Tests ausführen
+---------------
 
 .. code::
 
