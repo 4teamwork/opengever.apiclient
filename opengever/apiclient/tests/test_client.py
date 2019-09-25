@@ -1,5 +1,8 @@
+import re
+
 from .. import GEVERClient
 from ..exceptions import APIRequestException
+from ..models import Document
 from ..models.base import APIModel
 from . import TestCase
 
@@ -112,3 +115,42 @@ class TestClient(TestCase):
         dossier = GEVERClient(self.repository_folder_url, self.regular_user).create_dossier('Ein Tossier')
         update = GEVERClient(dossier.url, self.regular_user).update_object(title='Ein Dossier')
         self.assertTrue(update)
+
+    def test_listing(self):
+        listing = GEVERClient(url=self.dossier_url, username=self.regular_user).listing(name='documents')
+        # All listing elements are returned
+        self.assertEqual(listing['items_total'], 12)
+        # Results are wrapped as 'Documents'
+        self.assertIsInstance(listing['items'][0], Document)
+        self.assertEqual(
+            listing['items'][0].url,
+            f'{self.plone_url}ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/task-1/document-35'
+        )
+
+    def test_documents_listing(self):
+        listing = GEVERClient(url=self.dossier_url, username=self.regular_user).listing(
+            name='documents',
+            columns=[
+                'title',
+                'created',
+                'modified',
+                'filename',
+                'checked_out',
+                'bumblebee_checksum',
+                'file_extension',
+                'document_type',
+            ]
+        )
+        first_document = listing['items'][0]
+        self.assertEqual(first_document.title, 'Feedback zum Vertragsentwurf')
+        self.assertEqual(first_document.created, '2016-08-31T16:05:33+00:00')
+        self.assertEqual(first_document.modified, '2016-08-31T16:05:33+00:00')
+        self.assertEqual(first_document.filename, 'Feedback zum Vertragsentwurf.docx')
+        self.assertEqual(first_document.checked_out, '')
+        self.assertEqual(first_document.bumblebee_checksum, '5ed3f5959a83418cb26e0ae4f54319695f0c5faac0833616bdba8d4d856f659c')
+        self.assertEqual(first_document.file_extension, '.docx')
+        self.assertEqual(first_document.document_type, None)
+
+    def test_listing_passes_optional_params(self):
+        listing = GEVERClient(url=self.dossier_url, username=self.regular_user).listing(name="documents", b_size=700)
+        self.assertEqual(700, listing["b_size"])
