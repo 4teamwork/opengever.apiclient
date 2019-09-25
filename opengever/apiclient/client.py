@@ -54,19 +54,16 @@ class GEVERClient:
             )
         return self.session().get(f'{self.url}/@navigation').json()
 
-    def listing(self, **params):
+    def listing(self, name="documents", *columns):
         """
         Listing of specific types for given URL (https://docs.onegovgever.ch/dev-manual/api/listings/)
         Results are casted into model objects.
         """
         # GEVER-team: why does this include elements of type 'ftw.mail.mail'?
-        if "name" not in params:
-            params["name"] = "documents"
-
-        if "columns:list" in params:
-            if not isinstance(params["columns:list"], list):
-                raise AttributeError("A list of columns is expected.")
-            params["columns:list"].append("@type")
+        params = dict(name=name)
+        # Always require the type so the element may be wrapped.
+        params["columns:list"] = ["@type"]
+        params["columns:list"].extend(*columns)
 
         response = self.session().get(f"{self.url}/@listing", params=params).json()
         response["items"] = [self.wrap(item=item) for item in response["items"]]
