@@ -1,4 +1,3 @@
-import re
 import requests_mock
 
 from .. import GEVERClient
