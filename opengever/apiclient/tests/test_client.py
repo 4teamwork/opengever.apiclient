@@ -1,4 +1,4 @@
-import re
+import requests_mock
 
 from .. import GEVERClient
 from ..exceptions import APIRequestException
@@ -38,6 +38,17 @@ class TestClient(TestCase):
         self.assertEqual(
             f'404 Client Error: Not Found for url: {self.plone_url}ordnungssystem/bad-url',
             str(cm.exception))
+
+    def test_exception_includes_response_from_gever(self):
+        client = GEVERClient(f'{self.plone_url}ordnungssystem/nope', self.regular_user)
+        with requests_mock.Mocker() as mocker:
+            mocker.get(f'{self.plone_url}ordnungssystem/nope', text='GEVER says no', status_code=500)
+            with self.assertLogs(level='ERROR') as cm, self.assertRaises(APIRequestException):
+                client.fetch()
+
+        # The last error should include the original response from GEVER.
+        error = cm.output[-1]
+        self.assertIn('Response from GEVER: GEVER says no', error)
 
     def test_create_dossier(self):
         client = GEVERClient(self.repository_folder_url, self.regular_user)
