@@ -58,7 +58,7 @@ class APIRequestException(APIException):
         if self.original_exception:
             msgs.append(f"Original exception: {self.original_exception}.")
 
-            if self.original_exception.response and self.original_exception.response.text:
+            if hasattr(self.original_exception, "response") and self.original_exception.response.text:
                 msgs.append(f"Response from GEVER: {self.original_exception.response.text}")
 
         LOG.error("\n".join(msgs))
