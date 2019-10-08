@@ -72,3 +72,9 @@ class GEVERClient:
 
     def update_object(self, **data):
         return self.session().patch(self.url, json=data).ok
+
+    def get_office_connector_url(self):
+        """
+        Returns the Office Connector checkout url ("oc:....") for the GEVER document located at `self.url`.
+        """
+        return self.session().get(f"{self.url}/officeconnector_checkout_url").json()["url"]
