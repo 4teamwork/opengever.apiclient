@@ -1,20 +1,21 @@
 Ziele
 =====
 
-* Versionierung von GEVER behandeln
+* Breaking Changes der GEVER API behandeln
 
     * Dies ist der wichtigste Grund für die Entstehung dieses Pakets. Der `opengever.apiclient` kann in einer bestimmten Version installiert werden und retourniert unabhängig von der GEVER Version konstistente Daten.
+    * Durch Kapselung der GEVER API die Fachanwendung vor Änderungen schützen. Basis: https://plonerestapi.readthedocs.io/en/latest/upgrade-guide.html
     * Die Art der Implementierung der Versionierung ist noch nicht entschieden.
 
-* Dokumentation über Verwendung
-
-    * Sämtliche Zugriffe auf die GEVER API - auch sehr projekt-spezifische - müssen über dieses Paket abgehandelt werden. Dies, damit das GEVER Team die Art der Verwendung abschätzen kann.
+* "Quality of Life" für die Entwickler
 
     * DRY: Features wie Paginierung und Fehlerbehandlung werden nur ein Mal implementiert.
+    * Struktur: Auf endpoints der GEVER API operieren.
+    * Unnamed endpoints: Models beibehalten https://plonerestapi.readthedocs.io/en/latest/content.html
 
 * Zusammenarbeit zwischen GEVER und django Team verbessern
 
-    * Durch die Zusammenarbeit soll für das GEVER Team die Verwendung der API transparent werden. Das django Team erhält Feedback wenn die API nicht optimal angesprochen wird.
+    * Das GEVER-Team reviewt Pull Requests nur nach Bedarf, steht aber beratend zur Verfügung bei strukturellen Änderungen.
 
 
 Aufbau
@@ -23,9 +24,8 @@ Aufbau
 Organisation
 ------------
 
-* Das django Team hat die Verantwortung für die Entwicklung dieses Pakets.
-* Je eine Person aus dem GEVER und django Team muss die PRs reviewen.
-
+* @jone hat die Verantwortung für die Entwicklung dieses Pakets
+* Die aktuelle Version wird für das Projekt `vertragsmanagement` entwickelt, es ist nicht die Erwartung, dass dieses Paket innerhalb von dem Projekt sauber entwickelt wird. Innerhalb von diesem Projekt hat das django-Team die Verwantwortung für die Entwicklung. Jone wird die zweite Version entwickeln und auf eine saubere Basis stellen.
 
 Technisches
 -----------
