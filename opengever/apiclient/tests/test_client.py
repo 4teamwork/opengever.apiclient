@@ -1,3 +1,5 @@
+from io import BytesIO
+
 import requests_mock
 
 from .. import GEVERClient
@@ -175,3 +177,21 @@ class TestClient(TestCase):
         self.assertTrue(
             response.startswith("oc:")
         )
+
+    def test_create_document(self):
+        document = GEVERClient(url=self.dossier_url, username=self.regular_user).create_document(
+            title='Ein Dokument',
+            file=BytesIO(b'content of the document'),
+            content_type='text/plain',
+            filename='Ein Dokument.txt',
+            size=23,
+        )
+
+        self.assertIsInstance(document, Document)
+        self.assertEqual('Ein Dokument', document.title)
+        self.assertEqual({
+            'content-type': 'text/plain',
+            'download': f'{self.plone_url}ordnungssystem/fuehrung/vertraege-und-vereinbarungen/dossier-1/document-41/@@download/file',
+            'filename': 'Ein Dokument.txt',
+            'size': 23
+        }, document.file)

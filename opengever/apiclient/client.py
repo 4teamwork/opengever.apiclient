@@ -1,3 +1,5 @@
+from base64 import b64encode
+
 from .models import ModelRegistry
 from .session import GEVERSession
 from .utils import autowrap
@@ -78,3 +80,37 @@ class GEVERClient:
         Returns the Office Connector checkout url ("oc:....") for the GEVER document located at `self.url`.
         """
         return self.session().get(f"{self.url}/officeconnector_checkout_url").json()["url"]
+
+    @autowrap
+    def create_document(self, title, file, content_type, filename, size=None):
+        """
+        :param title: The title of the document
+        :param file: Readable IO which holds the content of the file
+        :param content_type: The content type of the document
+        :param filename: The filename of the document
+        :param size: The size of the file, if omitted file.size is used
+        """
+        if size is None:
+            size = file.size
+        size = str(size)
+
+        b64_filename = str(b64encode(filename.encode('utf-8')), 'utf-8')
+        b64_content_type = str(b64encode(content_type.encode('utf-8')), 'utf-8')
+        b64_portal_type = str(b64encode(b'opengever.document.document'), 'utf-8')
+        tus = self.session().post(f'{self.url}/@tus-upload', headers={
+            'Tus-Resumable': '1.0.0',
+            'Upload-Length': size,
+            'Upload-Metadata': f'filename {b64_filename},content-type {b64_content_type},@type {b64_portal_type}',
+        })
+
+        created_document = self.session().patch(
+            tus.headers['Location'],
+            headers={
+                'Tus-Resumable': '1.0.0',
+                'Upload-Offset': '0',
+                'Content-Type': 'application/offset+octet-stream'
+            },
+            data=file,
+        )
+
+        return self.session().get(created_document.headers['Location']).json()
