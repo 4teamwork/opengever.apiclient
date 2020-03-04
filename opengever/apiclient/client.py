@@ -10,7 +10,7 @@ class GEVERClient:
     It is instantiated for a specific GEVER resource in the name of a specific user.
     """
 
-    def __init__(self, url, username):
+    def __init__(self, url, username, headers={}):
         """
         :param url: The base URL to a resource in GEVER without the view.
         :type url: string
@@ -20,7 +20,7 @@ class GEVERClient:
         """
         self.url = url.rstrip("/")  # Remove trailing slash(es).
         self.username = username
-        self.session = GEVERSession(url, username)
+        self.session = GEVERSession(url, username, headers)
 
     def adopt(self, url):
         """Create and return a new GEVERClient instance for the passed url.
