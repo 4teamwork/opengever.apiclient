@@ -32,12 +32,13 @@ class GEVERSession:
     min_seconds_to_expiration = 60
     session_expiration_seconds = 60 * 60
 
-    def __init__(self, url, username):
+    def __init__(self, url, username, headers={}):
         self.gever_base_url = KeyRegistry.get_base_url_for(url)
         if not self.gever_base_url:
             raise ServiceKeyMissing(url)
 
         self.username = username
+        self.headers = headers
         self._session = self._get_session()
 
     def __call__(self):
@@ -79,8 +80,13 @@ class GEVERSession:
         """
         session = requests.Session()
         session.hooks["response"].append(self._raise_for_status_hook)
-        session.headers.update({"User-Agent": self._user_agent})
-        session.headers.update({"Accept": "application/json"})
+        session.headers.update(
+            {
+                "User-Agent": self._user_agent,
+                "Accept": "application/json",
+                **self.headers,
+            }
+        )
         self._acquire_authorization_token(session)
         return session
 

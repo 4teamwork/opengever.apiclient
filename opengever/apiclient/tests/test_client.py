@@ -195,3 +195,7 @@ class TestClient(TestCase):
             'filename': 'Ein Dokument.txt',
             'size': 23
         }, document.file)
+
+    def test_accepts_headers(self):
+        client = GEVERClient(url=self.dossier_url, username=self.regular_user, headers={'Accept-Language': 'fr-CH'})
+        self.assertDictContainsSubset({'Accept-Language': 'fr-CH'}, client.session.headers)
