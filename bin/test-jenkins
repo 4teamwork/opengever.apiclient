@@ -13,7 +13,7 @@ import sys
 
 ZSERVER_PORT = os.environ.get('ZSERVER_PORT', '19900')
 TESTSERVER_CTL_PORT = os.environ.get('PORT1', '19901')
-SOLR_PORT = os.environ.get('PORT2', '19902')
+SOLR_PORT = os.environ.get('SOLR_PORT', '19902')
 
 
 class TestserverDaemon(object):
@@ -32,10 +32,8 @@ class TestserverDaemon(object):
         assert not self.xmlrpc_url
 
         env = os.environ.copy()
-        env['ZSERVER_PORT'] = ZSERVER_PORT
-        env['TESTSERVER_CTL_PORT'] = TESTSERVER_CTL_PORT
-        env['SOLR_PORT'] = SOLR_PORT
         env['PYTHONUNBUFFERED'] = 'true'
+        env['BUILDOUT_DIR'] = os.getcwd()
 
         args = ['bin/testserver']
         print(' '.join(['>'] + args))
