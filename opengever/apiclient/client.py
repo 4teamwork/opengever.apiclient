@@ -92,9 +92,6 @@ class GEVERClient:
         )
 
     def user(self):
-        """
-        This feature was introduced in opengever.core 2020.3.0. To do: define testing setup for multiple GEVER versions.
-        """
         return self.session().get(f'{self.url}/@users/{self.username}').json()
 
     @autowrap
@@ -130,3 +127,32 @@ class GEVERClient:
         )
 
         return self.session().get(created_document.headers['Location']).json()
+
+    def sharing(self):
+        return self.session().get(f'{self.url}/@sharing').json()
+
+    def add_sharing_group(self, name, is_contributor=False, is_editor=False, is_reader=False, is_reviewer=False):
+        """
+        https://plonerestapi.readthedocs.io/en/latest/sharing.html#updating-local-roles
+        """
+        data = {
+            "entries": [
+                {
+                    "id": name,
+                    "title": name,
+                    "type": "group",
+                    "roles": {
+                        "Contributor": is_contributor,
+                        "Editor": is_editor,
+                        "Reader": is_reader,
+                        "Reviewer": is_reviewer
+                    },
+                }
+            ],
+            "inherit": True
+        }
+        response = self.session().post(f'{self.url}/@sharing', json=data)
+        return response.ok
+
+    def group(self, name):
+        return self.session().get(f"{self.url}/@groups/{name}").json()
