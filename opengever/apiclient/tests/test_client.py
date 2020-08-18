@@ -59,7 +59,7 @@ class TestClient(TestCase):
         self.assertIsInstance(dossier, APIModel)
         self.assertEqual('Wichtige Unterlagen', dossier.title)
         self.assertEqual('Richtig Wichtig', dossier.description)
-        self.assertEqual(self.regular_user, dossier.responsible)
+        self.assertEqual(self.regular_user, dossier.responsible['token'])
 
     def test_create_dossier_raw(self):
         client = GEVERClient(self.repository_folder_url, self.regular_user)
@@ -73,6 +73,7 @@ class TestClient(TestCase):
             client.get_navigation()
 
         navigation = client.get_navigation(raw=True)
+        self.maxDiff = None
         self.assertEqual({
             '@id': f'{self.plone_url}ordnungssystem/@navigation',
             'tree': [
@@ -82,6 +83,7 @@ class TestClient(TestCase):
                     'current': False,
                     'current_tree': False,
                     'description': 'Alles zum Thema Führung.',
+                    'is_leafnode': False,
                     'nodes': [
                         {
                             '@type': 'opengever.repository.repositoryfolder',
@@ -89,6 +91,7 @@ class TestClient(TestCase):
                             'current': False,
                             'current_tree': False,
                             'description': '',
+                            'is_leafnode': True,
                             'nodes': [],
                             'text': '1.1. Verträge und Vereinbarungen',
                             'uid': 'createrepositorytree000000000003',
@@ -105,6 +108,7 @@ class TestClient(TestCase):
                     'current': False,
                     'current_tree': False,
                     'description': '',
+                    'is_leafnode': True,
                     'nodes': [],
                     'text': '2. Rechnungsprüfungskommission',
                     'uid': 'createrepositorytree000000000004',
@@ -116,6 +120,7 @@ class TestClient(TestCase):
                     'current': False,
                     'current_tree': False,
                     'description': '',
+                    'is_leafnode': True,
                     'nodes': [],
                     'text': '3. Spinnännetzregistrar',
                     'uid': 'createrepositorytree000000000005',

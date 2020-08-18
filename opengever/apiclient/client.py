@@ -81,6 +81,22 @@ class GEVERClient:
         """
         return self.session().get(f"{self.url}/officeconnector_checkout_url").json()["url"]
 
+    def allowed_roles_and_principals(self):
+        """
+        This feature was introduced in opengever.core 2020.3.0. To do: define testing setup for multiple GEVER versions.
+        """
+        return (
+            self.session()
+            .get(f'{self.url}/@allowed-roles-and-principals')
+            .json()['allowed_roles_and_principals']
+        )
+
+    def user(self):
+        """
+        This feature was introduced in opengever.core 2020.3.0. To do: define testing setup for multiple GEVER versions.
+        """
+        return self.session().get(f'{self.url}/@users/{self.username}').json()
+
     @autowrap
     def create_document(self, title, file, content_type, filename, size=None):
         """
