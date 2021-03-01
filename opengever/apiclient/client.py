@@ -131,7 +131,7 @@ class GEVERClient:
     def sharing(self):
         return self.session().get(f'{self.url}/@sharing').json()
 
-    def add_sharing_group(self, name, is_contributor=False, is_editor=False, is_reader=False, is_reviewer=False):
+    def set_group_roles(self, name, roles):
         """
         https://plonerestapi.readthedocs.io/en/latest/sharing.html#updating-local-roles
         """
@@ -139,17 +139,10 @@ class GEVERClient:
             "entries": [
                 {
                     "id": name,
-                    "title": name,
                     "type": "group",
-                    "roles": {
-                        "Contributor": is_contributor,
-                        "Editor": is_editor,
-                        "Reader": is_reader,
-                        "Reviewer": is_reviewer
-                    },
+                    "roles": roles
                 }
             ],
-            "inherit": True
         }
         response = self.session().post(f'{self.url}/@sharing', json=data)
         return response.ok

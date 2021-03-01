@@ -213,7 +213,7 @@ class TestClient(TestCase):
     def test_set_sharing(self):
         sharing = GEVERClient(url=self.dossier_url, username='nicole.kohler').sharing()
         self.assertNotIn('rk_users', [entry['id'] for entry in sharing['entries']])
-        ok = GEVERClient(url=self.dossier_url, username='nicole.kohler').add_sharing_group('rk_users', is_reader=True)
+        ok = GEVERClient(url=self.dossier_url, username='nicole.kohler').set_group_roles('rk_users', {'Reader': True})
         self.assertTrue(ok)
         sharing = GEVERClient(url=self.dossier_url, username='nicole.kohler').sharing()
         self.assertIn('rk_users', [entry['id'] for entry in sharing['entries']])
