@@ -3,7 +3,7 @@ Ziele
 
 * Breaking Changes der GEVER API behandeln
 
-    * Dies ist der wichtigste Grund für die Entstehung dieses Pakets. Der `opengever.apiclient` kann in einer bestimmten Version installiert werden und retourniert unabhängig von der GEVER Version konstistente Daten.
+    * Dies ist der wichtigste Grund für die Entstehung dieses Pakets. Der `opengever.apiclient` kann in einer bestimmten Version installiert werden und retourniert unabhängig von der GEVER Version konsistente Daten.
     * Durch Kapselung der GEVER API die Fachanwendung vor Änderungen schützen. Basis: https://plonerestapi.readthedocs.io/en/latest/upgrade-guide.html
     * Die Art der Implementierung der Versionierung ist noch nicht entschieden.
 
@@ -15,7 +15,7 @@ Ziele
 
 * Zusammenarbeit zwischen GEVER und django Team verbessern
 
-    * Das GEVER-Team reviewt Pull Requests nur nach Bedarf, steht aber beratend zur Verfügung bei strukturellen Änderungen.
+    * Das GEVER-Team führt Code Reviews der Pull Requests nur nach Bedarf durch, steht aber beratend zur Verfügung bei strukturellen Änderungen.
 
 
 Aufbau
@@ -25,12 +25,12 @@ Organisation
 ------------
 
 * @jone hat die Verantwortung für die Entwicklung dieses Pakets
-* Die aktuelle Version wird für das Projekt `vertragsmanagement` entwickelt, es ist nicht die Erwartung, dass dieses Paket innerhalb von dem Projekt sauber entwickelt wird. Innerhalb von diesem Projekt hat das django-Team die Verwantwortung für die Entwicklung. Jone wird die zweite Version entwickeln und auf eine saubere Basis stellen.
+* Die aktuelle Version wird für das Projekt `vertragsmanagement` entwickelt, es ist nicht die Erwartung, dass dieses Paket innerhalb von dem Projekt sauber entwickelt wird. Innerhalb von diesem Projekt hat das django-Team die Verantwortung für die Entwicklung. Jone wird die zweite Version entwickeln und auf eine saubere Basis stellen.
 
 Technisches
 -----------
 
-* Sämtliche requests müssen von diesem Paket behandelt werden.
+* Sämtliche Requests müssen von diesem Paket behandelt werden.
 * Die Objekte im Ordner `apiclient/models` repräsentieren GEVER-Inhaltstypen (https://docs.onegovgever.ch/dev-manual/api/content_types/)
 
 
@@ -46,11 +46,11 @@ beschrieben.
 
 Die generierten Service-Keys der verschiedenen GEVER-Installationen werden in einen
 Ordner kopiert (Namenskonvention: ``keys``).
-Dieser Ordner wird über die Umgebungsvariabel ``OPENGEVER_APICLIENT_KEY_DIRS``
+Dieser Ordner wird über die Umgebungsvariable ``OPENGEVER_APICLIENT_KEY_DIRS``
 konfiguriert. Mehrere Ordner können mit dem Trennzeichen ``:`` getrennt werden.
 
 
-Umgebungsvariabeln
+Umgebungsvariablen
 ------------------
 
 ``OPENGEVER_APICLIENT_KEY_DIRS``

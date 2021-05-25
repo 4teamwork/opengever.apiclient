@@ -35,11 +35,11 @@ class GEVERClient:
         return ModelRegistry.wrap(item, self)
 
     @autowrap
-    def fetch(self):
+    def fetch(self, **kwargs):
         """Fetch the full object with the configured URL and return the object
         representation.
         """
-        return self.session().get(self.url).json()
+        return self.session().get(self.url, params=kwargs).json()
 
     @autowrap
     def create_dossier(self, title, **data):
