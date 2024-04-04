@@ -91,8 +91,12 @@ class GEVERClient:
             .json()['allowed_roles_and_principals']
         )
 
+    def ogds_user(self):
+        return self.session().get(f'{self.url}/@ogds-users/{self.username}').json()
+
     def user(self):
-        return self.session().get(f'{self.url}/@users/{self.username}').json()
+        userid = self.ogds_user()['userid']
+        return self.session().get(f'{self.url}/@users/{userid}').json()
 
     @autowrap
     def create_document(self, title, file, content_type, filename, size=None):
